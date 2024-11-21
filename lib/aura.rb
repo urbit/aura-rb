@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "rb/version"
+require_relative "aura/version"
 
+# Functionality for wrangling Urbit `@da`, `@p`, `@q`, `@ux`, etc.
 module Aura
-  module Rb
-    class Error < StandardError; end
-    # Your code goes here...
+  def self.version
+    Aura::VERSION
   end
 end
