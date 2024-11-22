@@ -6,3 +6,6 @@ Style/StringLiterals:
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+Naming/MethodParameterName:
+  MinNameLength: 1
