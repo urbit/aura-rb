@@ -31,6 +31,31 @@ module Aura
       end
     end
 
+    # Convert a hex-encoded string to a @q-encoded string.
+    #
+    # Note that this preserves leading zero bytes.
+    #
+    # @param arg [String] The hex-encoded string to convert.
+    # @return [String] The @q-encoded string after conversion.
+    def self.hex2patq(arg)
+      raise ArgumentError, "hex2patq: input must be a string" unless arg.is_a?(String)
+
+      arg = arg.delete_prefix("0x")
+      hex = arg.length.odd? ? arg.rjust(arg.length + 1, "0") : arg
+      buf = hex.to_s.scan(/../).map(&:hex)
+      buf2patq(buf)
+    end
+
+    # Convert a @q-encoded string to a hex-encoded string.
+    #
+    # Note that this preservers leading zero bytes.
+    #
+    # @param name [String] The @q-encoded string to be converted.
+    # @return [String] The hex-encoded string after conversion.
+    def self.patq2hex(name)
+      raise ArgumentError, "patq2hex: not a valid @q" unless P.valid_pat?(name)
+    end
+
     def prefix_name(byts)
       byts[1].nil? ? prefixes[0] + suffixes[byts[0]] : prefixes[byts[0]] + suffixes[byts[1]]
     end

@@ -104,7 +104,7 @@ module Hoon
       if (pyn >= 0x10000) && (pyn <= 0xffffffff)
         0x10000 + feis(pyn - 0x10000)
       elsif (pyn >= 0x100000000) && (pyn <= 0xffffffffffffffff)
-        hi | loop(lo)
+        hi | fein_loop(lo)
       else
         pyn
       end
@@ -121,7 +121,7 @@ module Hoon
       if (cry >= 0x10000) && (cry <= 0xffffffff)
         0x10000 + tail(cry - 0x10000)
       elsif (cry >= 0x100000000) && (cry <= 0xffffffffffffffff)
-        hi | loop(lo)
+        hi | fynd_loop(lo)
       else
         cry
       end
