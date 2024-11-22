@@ -2,6 +2,7 @@
 
 require "aura/helpers"
 require "aura/p"
+require "aura/q"
 require "hoon"
 
 require_relative "aura/version"
