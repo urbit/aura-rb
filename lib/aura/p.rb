@@ -36,12 +36,13 @@ module Aura
 
     def self.clan(who)
       begin
-        name = patp2hex(who)
+        name = patp2dec(who)
+        puts name
       rescue ArgumentError
         raise "clan: not a valid @p"
       end
 
-      wid = met(name, 3)
+      wid = met(3, name)
       case wid
       when (0..1) then "galaxy"
       when 2 then "star"
@@ -53,7 +54,7 @@ module Aura
 
     def self.sein(name)
       begin
-        who = patp2hex(name)
+        who = patp2dec(name)
         mir = clan(name)
       rescue ArgumentError
         raise "sein: not a valid @p"
@@ -61,9 +62,9 @@ module Aura
 
       res = case mir
             when "galaxy" then who
-            when "star" then end_bits(who, 1, 3)
-            when "planet" then end_bits(who, 1, 4)
-            when "moon" then end_bits(who, 1, 5)
+            when "star" then end_bits(3, 1, who)
+            when "planet" then end_bits(4, 1, who)
+            when "moon" then end_bits(5, 1, who)
             else 0
             end
       patp(res)
