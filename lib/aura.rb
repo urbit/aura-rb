@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require("ob")
+require_relative("ob")
 
 # Functionality for wrangling Urbit `@da`, `@p`, `@q`, `@ux`, etc.
 module Aura
@@ -70,7 +70,7 @@ module Aura
     name.gsub(/[\^~-]/, "").scan(/.{1,3}/)
   end
 
-  def self.valid_pat?(name)
+  def valid_pat?(name)
     raise ArgumentError, "valid_pat?: non-string input" unless name.is_a? String
 
     leading_tilde = name.start_with?("~")
@@ -233,7 +233,8 @@ module Aura
     # Convert a number to a @q-encoded string.
     def self.patq(arg)
       n = arg.to_i
-      buf = n.to_s(16).scan(/../).map(&:hex)
+      hex = n.to_s(16)
+      buf = hex.rjust((hex.length + 1) & ~1, "0").scan(/../).map(&:hex)
       buf2patq(buf)
     end
 
@@ -271,7 +272,7 @@ module Aura
     #
     # Note that this preservers leading zero bytes.
     def self.patq2hex(name)
-      raise ArgumentError, "patq2hex: not a valid @q" unless P.valid_pat?(name)
+      raise ArgumentError, "patq2hex: not a valid @q" unless valid_pat?(name)
 
       chunks = name.delete_prefix("~").split("-")
       dec2hex = ->(dec) { format("%02x", dec) }
@@ -288,9 +289,37 @@ module Aura
     end
 
     # Validate a @q-encoded string.
-    # TODO: FINISH ME
     def self.valid_patq?(str)
+      valid_pat?(str) && eq_patq(str, patq(patq2dec(str)))
     end
+
+    # Validate @q-encoded string equality.
+    def self.eq_patq(p, q)
+      # Convert p to hex, raise an exception if not valid
+      phex = begin
+        Aura::Q.patq2hex(p)
+      rescue ArgumentError
+        raise ArgumentError, "eq_patq: not a valid @q"
+      end
+
+      # Convert q to hex, raise an exception if not valid
+      qhex = begin
+        Aura::Q.patq2hex(q)
+      rescue ArgumentError
+        raise ArgumentError, "eq_patq: not a valid @q"
+      end
+
+      # Assuming eq_mod_leading_zero_bytes is defined elsewhere in your Ruby code
+      eq_mod_leading_zero_bytes(phex, qhex)
+    end
+
+    # Helper method to compare hex strings ignoring leading zero bytes
+    def self.eq_mod_leading_zero_bytes(hex1, hex2)
+      # Remove any leading zeros and compare
+      hex1.gsub(/^0+/, "") == hex2.gsub(/^0+/, "")
+    end
+
+    module_function
 
     def prefix_name(byts)
       byts[1].nil? ? PREFIXES[0] + SUFFIXES[byts[0]] : PREFIXES[byts[0]] + SUFFIXES[byts[1]]

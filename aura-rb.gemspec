@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "lib/aura/version"
+require_relative "lib/aura"
 
 Gem::Specification.new do |spec|
   spec.name = "urbit-aura"
