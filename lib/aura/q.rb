@@ -15,14 +15,13 @@ module Aura
     def self.patq(arg)
       n = arg.to_i
       buf = n.to_s(16).scan(/../).map(&:hex)
-      puts buf
       buf2patq(buf)
     end
 
     def self.buf2patq(buf)
       # Split the buffer into chunks of 2, with a special case for odd-length buffers
       chunked = if buf.length.odd? && buf.length > 1
-                  [[buf[0]]] + buf[1..-1].each_slice(2).to_a
+                  [[buf[0]]] + buf[1..].each_slice(2).to_a
                 else
                   buf.each_slice(2).to_a
                 end

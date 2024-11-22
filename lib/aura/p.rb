@@ -37,7 +37,6 @@ module Aura
     def self.clan(who)
       begin
         name = patp2dec(who)
-        puts name
       rescue ArgumentError
         raise "clan: not a valid @p"
       end
