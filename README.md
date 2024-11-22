@@ -54,6 +54,7 @@ TODO:
 - [ ] Tests
 - [ ] Dates (`@da`)
 - [ ] More numbers (`@uv`, `@ud`, etc...)
+- [ ] Linting errors (formally ignore rules, or fix)
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
 `rake test` to run the tests. You can also run `bin/console` for an interactive

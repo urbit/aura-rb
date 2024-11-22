@@ -219,8 +219,6 @@ module Aura
       end
     end
 
-    private
-
     def self.syl2bin(idx)
       idx.to_s(2).rjust(8, "0")
     end
