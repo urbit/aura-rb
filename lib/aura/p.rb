@@ -28,19 +28,15 @@ module Aura
       hex.length.odd? ? "0x#{hex.rjust(hex.length + 1, "0")}" : "0x#{hex}"
     end
 
-    def self.patp2bn(name)
-      "0x#{patp2hex(name)}".to_i(16)
-    end
-
     def self.patp2dec(name)
-      patp2bn(name).to_s
+      patp2hex(name).to_i(16)
     rescue ArgumentError
       raise "patp2dec: not a valid @p"
     end
 
     def self.clan(who)
       begin
-        name = patp2bn(who)
+        name = patp2hex(who)
       rescue ArgumentError
         raise "clan: not a valid @p"
       end
@@ -57,7 +53,7 @@ module Aura
 
     def self.sein(name)
       begin
-        who = patp2bn(name)
+        who = patp2hex(name)
         mir = clan(name)
       rescue ArgumentError
         raise "sein: not a valid @p"
